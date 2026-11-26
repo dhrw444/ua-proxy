@@ -1,5 +1,7 @@
 # ua-proxy
 
+[![test](https://github.com/dhrw444/ua-proxy/actions/workflows/test.yml/badge.svg)](https://github.com/dhrw444/ua-proxy/actions/workflows/test.yml)
+
 > Cloudflare Worker 反向代理：**User-Agent 伪装** + **提示词注入** + **管理面板** + **多密钥池**
 
 很多中转站按 `User-Agent` 判断客户端来源，非白名单直接 `401 unauthorized client detected`。这个 Worker 站在你和上游之间，把 UA 改掉，同时把你的系统提示词塞进请求体——绘图软件看不到你的指令，模型看得到。
