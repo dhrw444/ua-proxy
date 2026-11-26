@@ -180,14 +180,18 @@ https://你的域名/wrong999/v1/messages    ← 404
 ## 测试
 
 ```bash
-node tests/audit.mjs    # 功能审计：115 项
-node tests/t5d1.mjs     # 单元：68 项
-node tests/e2e5d1.mjs   # 真实 TCP 端到端：36 项
+node tests/audit.mjs      # 功能审计：115 项
+node tests/t5d1.mjs       # 单元：68 项
+node tests/e2e5d1.mjs     # 真实 TCP 端到端：36 项
+node tests/tools.mjs      # 生成器：TOML 往返 12 项
+python3 tests/toml_check.py   # 配置文件校验
 ```
 
-三个都不需要网络，用本地 mock 的 D1 和上游。
+全都不需要网络，用本地 mock 的 D1 和上游。
 
 `tests/audit.mjs` 会把每个功能单独立项打印出来，失败带原因。
+
+CI 每次推 `main` 自动跑全套。
 
 ---
 
