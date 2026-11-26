@@ -1,0 +1,55 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 语法检查（五个 Worker）
+        run: |
+          for f in src/*.js; do
+            echo "check $f"
+            node --check "$f"
+          done
+
+      - name: 功能审计
+        run: node tests/audit.mjs
+
+      - name: 单元测试
+        run: node tests/t5d1.mjs
+
+      - name: 真实 TCP 端到端
+        run: node tests/e2e5d1.mjs
+
+      - name: 生成器（TOML 往返）
+        run: node tests/tools.mjs
+
+      - name: TOML 标准解析
+        run: python3 -c "
+          import tomllib, glob, sys
+          n = 0
+          for f in sorted(glob.glob('wrangler/*.toml')):
+              if 'local' in f: continue
+              d = tomllib.load(open(f, 'rb'))
+              assert d['name'], f
+              assert d['main'].startswith('src/'), f + ' → main 路径不对'
+              print('ok', f)
+              n += 1
+          print(f'{n} 个 toml 通过')
+        "
