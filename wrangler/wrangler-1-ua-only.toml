@@ -1,0 +1,17 @@
+# Cloudflare Worker 配置 —— 纯 UA 伪装版
+# 部署：npx wrangler deploy
+# 本地调试：npx wrangler dev
+#
+# 本配置只改 User-Agent，不注入任何提示词。
+# 需要注入功能请用 wrangler-2-full / wrangler-3-env / wrangler-4-blank。
+
+name = "ua-proxy"
+main = "src/agentrouter-1-ua-only.js"
+compatibility_date = "2024-11-01"
+
+[vars]
+UA = "claude-cli/2.0.0 (external, cli)"
+UPSTREAM = "https://api.xingchiapi.com"
+
+[observability]
+enabled = true

@@ -1,0 +1,27 @@
+# 5 号：代理 + 管理面板 + D1 配置 + 密钥池
+# 完整步骤见「管理面板部署说明.md」
+
+name = "ua-proxy"
+main = "src/agentrouter-5-panel.js"
+compatibility_date = "2024-11-01"
+
+# 先建库：wrangler d1 create ua-proxy
+# 把返回的 database_id 填进来
+[[d1_databases]]
+binding = "DB"
+database_name = "ua-proxy"
+database_id = "把 wrangler d1 create 返回的 id 填这里"
+
+# 建表（手动跑一次）：
+#   wrangler d1 execute ua-proxy --remote --file=./schema.sql
+
+# 三个密码用 secret 存，不要写在这里：
+#   wrangler secret put ADMIN_PASSWORD    面板登录密码（必填）
+#   wrangler secret put ACCESS_KEY        客户端调代理用的 key（必填）
+#   wrangler secret put SESSION_SECRET    可选，会话签名用
+
+# 可选：设了就覆盖 D1 里的值（临时改配置不用开面板）
+# [vars]
+# MODE = "prepend"
+# UA = "claude-cli/2.0.0 (external, cli)"
+# UPSTREAM = "https://api.xingchiapi.com"

@@ -1,0 +1,17 @@
+# Cloudflare Worker 配置（空白版，自己填提示词）
+# 部署：npx wrangler deploy
+# 本地调试：npx wrangler dev
+#
+# 提示词写在 agentrouter-4-blank.js 的 PROMPT 常量里，不在这个文件。
+
+name = "ua-proxy"
+main = "src/agentrouter-4-blank.js"
+compatibility_date = "2024-11-01"
+
+[vars]
+UA = "claude-cli/2.0.0 (external, cli)"
+UPSTREAM = "https://api.xingchiapi.com"
+MODE = "append"
+
+[observability]
+enabled = true
