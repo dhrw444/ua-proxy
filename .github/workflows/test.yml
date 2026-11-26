@@ -40,16 +40,5 @@ jobs:
       - name: 生成器（TOML 往返）
         run: node tests/tools.mjs
 
-      - name: TOML 标准解析
-        run: python3 -c "
-          import tomllib, glob, sys
-          n = 0
-          for f in sorted(glob.glob('wrangler/*.toml')):
-              if 'local' in f: continue
-              d = tomllib.load(open(f, 'rb'))
-              assert d['name'], f
-              assert d['main'].startswith('src/'), f + ' → main 路径不对'
-              print('ok', f)
-              n += 1
-          print(f'{n} 个 toml 通过')
-        "
+      - name: 配置文件校验
+        run: python3 tests/toml_check.py
